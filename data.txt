@@ -1,0 +1,5 @@
+Cay Horstmann's Unblog;https://horstmann.com/unblog/;https://horstmann.com/unblog/rss.xml
+Stack Overflow - Where Developers Learn, Share, & Build Careers;https://stackoverflow.com/;
+Codeforces;https://codeforces.com/;
+GitHub: Let’s build from here · GitHub;https://github.com/;
+MuscleWiki - Simplify your workout;https://musclewiki.com/;
