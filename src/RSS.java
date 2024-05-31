@@ -16,17 +16,12 @@ public class RSS {
     public static void main(String[] args) {
         System.out.println("Hello there! Welcome to RSS reader\n");
         menu();
-
     }
 
     public static void menu(){
-
         if (InternetConnectionChecker() == true) {
-            // handle invalid inputs
             try {
-
                 Scanner scanner = new Scanner(System.in);
-
                 int choice;
 
                 System.out.println(
@@ -55,17 +50,12 @@ public class RSS {
         }
     }
     public static void addURL() {
-
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("please enter website URL to add:\n-1 to return");
         String URL = scanner.next();
 
         if (URL.equals(-1)) menu();
-
-        // check if it is url must be added here
         try {
-
             //html
             String html = fetchPageSource(URL);
 
@@ -75,10 +65,7 @@ public class RSS {
             //rssURL
             String rssURL = extractRssUrl(URL);
 
-            //add to file
             try {
-
-                // check if file exists to open or create file
                 File file = new File("data.txt");
                 if (!file.exists()) {
                     file.createNewFile();
@@ -86,7 +73,6 @@ public class RSS {
 
                 FileWriter fw = new FileWriter(file, true);
                 BufferedWriter writer = new BufferedWriter(fw);
-
                 String urlInf = URLTitle + ";" + URL + ";" + rssURL + "\n";
 
                 // add url to file if it is a new url
@@ -94,15 +80,11 @@ public class RSS {
                     writer.write(urlInf);
                     writer.close();
                     System.out.println(URL + " added successfully");
-
                 }else {
                     writer.close();
                     System.out.println(URL + " already exists");
                 }
-
-                // return to menu process finished
                 menu();
-
             } catch (IOException e) {
                 System.out.println("couldn't save it. try again");
                 menu();
@@ -114,24 +96,16 @@ public class RSS {
             menu();
             throw new RuntimeException(e);
         }
-
-
     }
     public static void removeURL(){
-
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("please enter website URL to remove:\n-1 to return");
         String URL = scanner.next();
 
         if (URL.equals(-1)) menu();
 
-        //check if url exist
         if(isInFIle(URL) == true){
-
             try {
-
-                // open  existed file
                 File file = new File("data.txt");
                 FileReader fr = new FileReader(file);
                 BufferedReader bufferedReader = new BufferedReader(fr);
@@ -146,12 +120,9 @@ public class RSS {
 
                 // remove
                 while ((line = bufferedReader.readLine()) != null) {
-
                     Boolean Contains = line.contains(URL);
                     if (Contains) continue;
-
                     bufferedWriter.write(line+"\n");
-
                 }
 
                 bufferedWriter.close();
@@ -162,24 +133,19 @@ public class RSS {
                         boolean successful = tempFile.renameTo(new File("data.txt"));
                         System.out.println(URL + " removed successfully");
                         menu();
-
-
                     } else {
                         System.out.println("Try again. Failed to delete the file.");
                         menu();
-
                     }
                 } else {
                     System.out.println("Try again. Failed to delete the file.");
                     menu();
                 }
-
             } catch (Exception e) {
                 System.out.println("Try again. Failed to delete the file.");
                 menu();
                 throw new RuntimeException(e);
             }
-
         }else {
             System.out.println("Couldn't find " + URL);
             menu();
@@ -188,17 +154,12 @@ public class RSS {
 
     }
     public static void showUpdates(){
-
             Scanner scanner = new Scanner(System.in);
-
             int counter = showUpdatesMenu();
             int choice = scanner.nextInt();
 
             try {
-
-                //open file
                 File file = new File("data.txt");
-
                 String line, sub, rssURL, title;
 
                 if (choice == -1) menu();
@@ -206,7 +167,6 @@ public class RSS {
                     FileReader nfr = new FileReader(file);
                     BufferedReader nbufferedReader = new BufferedReader(nfr);
                     while ((line = nbufferedReader.readLine()) != null){
-
                         //extract title
                         sub = line.substring(line.indexOf(";") + 1 , line.length());
 
@@ -219,9 +179,7 @@ public class RSS {
                     nbufferedReader.close();
                     System.out.println("\n Done:D \n");
                     menu();
-
             } else if (choice >= 1 && choice <= counter) {
-
                     FileReader nfr = new FileReader(file);
                     BufferedReader nbufferedReader = new BufferedReader(nfr);
 
@@ -229,64 +187,50 @@ public class RSS {
 
                     // get content of specific line
                     while ((line = nbufferedReader.readLine()) != null){
-
                         if (choice == seconCounter) {
                             title = line.substring(0, line.indexOf(";"));
                             sub = line.substring(line.indexOf(";") + 1, line.length());
                             rssURL = sub.substring(sub.indexOf(';') + 1, sub.length());
-
                             retrieveRssContent(rssURL);
                             System.out.println(title);
                         }
                         nbufferedReader.close();
                         seconCounter++;
                     }
-
                     System.out.println("\n Done:D \n");
                     menu();
-
             }else{
                 System.out.println("Enter a valid number or -1 to return");
                     showUpdates();
                 }
-
-
         }catch (Exception exception){
             throw new RuntimeException(exception);
         }
-
     }
 
     // shows every item in file as list and return the number of items
     public static int showUpdatesMenu() {
-
         int counter = 0;
         System.out.println("[0] All website");
 
         try {
-
             File file = new File("data.txt");
             FileReader fr = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fr);
-
             String line, title;
 
             while ((line = bufferedReader.readLine()) != null) {
-
-                // print titles
                 title = "[" + (counter+1) + "] " + line.substring(0, line.indexOf(";"));
                 System.out.println(title);
                 counter++;
             }
 
             bufferedReader.close();
-
             System.out.println("Enter -1 to return");
 
             return counter;
 
         }catch (Exception exception){
-
             throw new RuntimeException(exception);
         }
 
@@ -318,11 +262,9 @@ public class RSS {
                         bufferedReader.close();
                         return true;
                     }
-
                 }
 
             } catch (Exception e) {
-
                 throw new RuntimeException(e);
             }
 
