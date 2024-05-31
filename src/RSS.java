@@ -24,6 +24,7 @@ public class RSS {
                 Scanner scanner = new Scanner(System.in);
                 int choice;
 
+
                 System.out.println(
                         "choose an action:\n" +
                                 "[1] Show Updates\n" +
